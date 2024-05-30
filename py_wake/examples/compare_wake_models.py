@@ -16,7 +16,7 @@ def main():
         site = Hornsrev1Site()
 
         wake_models = [NOJ(site, windTurbines), BastankhahGaussian(
-            site, windTurbines), Fuga(LUT_path, site, windTurbines)]
+            site, windTurbines), Fuga(site, windTurbines, LUT_path)]
 
         for wake_model in wake_models:
 

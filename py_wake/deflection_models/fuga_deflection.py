@@ -169,7 +169,7 @@ def main():
         x, y = [0, 600, 1200], [0, 0, 0]  # site.initial_position[:2].T
         windTurbines = IEA37_WindTurbines()
         path = tfp + 'fuga/2MW/Z0=0.00408599Zi=00400Zeta0=0.00E+00.nc'
-        noj = Fuga(path, site, windTurbines, deflectionModel=FugaDeflection(path))
+        noj = Fuga(site, windTurbines, path, deflectionModel=FugaDeflection(path))
         yaw = [-30, 30, 0]
         noj(x, y, yaw=yaw, wd=270, ws=10).flow_map().plot_wake_map()
         plt.show()

@@ -32,7 +32,7 @@ def main():
         windTurbines = IEA37_WindTurbines()
         from py_wake.tests.test_files import tfp
         path = tfp + 'fuga/2MW/Z0=0.03000000Zi=00401Zeta0=0.00E+00.nc'
-        noj = Fuga(path, site, windTurbines, deflectionModel=JimenezWakeDeflection())
+        noj = Fuga(site, windTurbines, path, deflectionModel=JimenezWakeDeflection())
         yaw = [-30, 30, 0]
         noj(x, y, yaw=yaw, tilt=0, wd=270, ws=10).flow_map().plot_wake_map()
         import matplotlib.pyplot as plt

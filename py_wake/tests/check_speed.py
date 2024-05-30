@@ -18,7 +18,7 @@ path = tfp + 'fuga/2MW/Z0=0.03000000Zi=00401Zeta0=0.00E+00.nc'
 
 
 def Fuga(site, wt):
-    return fuga.Fuga(path, site, wt)
+    return fuga.Fuga(site, wt, path)
 
 
 test_lst = [(NOJ, 1.2), (IEA37SimpleBastankhahGaussian, 1.5), (Fuga, 1)]

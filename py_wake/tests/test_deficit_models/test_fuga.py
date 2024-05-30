@@ -28,7 +28,7 @@ def test_fuga():
 
     site = UniformSite([1, 0, 0, 0], ti=0.075)
     path = tfp + 'fuga/2MW/Z0=0.03000000Zi=00401Zeta0=0.00E+00.nc'
-    wake_model = Fuga(path, site, wts)
+    wake_model = Fuga(site, wts, path)
     res, _ = timeit(wake_model.__call__, verbose=0, line_profile=0,
                     profile_funcs=[FugaDeficit.interpolate, LUTInterpolator.__call__, GridInterpolator.__call__])(x=wt_x, y=wt_y, wd=[30], ws=[10])
 
@@ -41,7 +41,7 @@ def test_fuga():
     x_j = np.linspace(-1500, 1500, 500)
     y_j = np.linspace(-1500, 1500, 300)
 
-    wake_model = Fuga(path, site, wts)
+    wake_model = Fuga(site, wts, path)
     sim_res = wake_model(wt_x, wt_y, wd=[30], ws=[10])
     flow_map70 = sim_res.flow_map(HorizontalGrid(x_j, y_j, h=70))
     flow_map73 = sim_res.flow_map(HorizontalGrid(x_j, y_j, h=73))
@@ -79,8 +79,8 @@ def test_fuga_blockage_wt_row():
     wts = HornsrevV80()
     path = tfp + 'fuga/2MW/Z0=0.03000000Zi=00401Zeta0=0.00E+00.nc'
     site = hornsrev1.Hornsrev1Site()
-    fuga_pdw = Fuga(path, site, wts)
-    fuga_a2a = FugaBlockage(path, site, wts)
+    fuga_pdw = Fuga(site, wts, path)
+    fuga_a2a = FugaBlockage(site, wts, path)
 
     x, y = [np.asarray(xy)[np.arange(0, 73, 8)] for xy in (hornsrev1.wt_x, hornsrev1.wt_y)]
 
@@ -109,7 +109,7 @@ def test_fuga_new_casedata_bin_format():
     site = UniformSite([1, 0, 0, 0], ti=0.075)
     with warnings.catch_warnings():
         warnings.simplefilter('ignore', DeprecationWarning)
-        wake_model = Fuga(path, site, wts)
+        wake_model = Fuga(site, wts, path)
         res = wake_model(x=wt_x, y=wt_y, wd=[30], ws=[10])
 
         npt.assert_array_almost_equal(res.WS_eff_ilk.flatten(), [10.00647891, 10., 8.21713928, 10.03038884, 9.36889964,
@@ -158,7 +158,7 @@ def test_fuga_downwind():
 
     path = tfp + 'fuga/2MW/Z0=0.00408599Zi=00400Zeta0=0.00E+00.nc'
     site = UniformSite([1, 0, 0, 0], ti=0.075)
-    wfm_UL = Fuga(path, site, wts)
+    wfm_UL = Fuga(site, wts, path)
 
     wfm_ULT = PropagateDownwind(site, wts, FugaYawDeficit(path))
 
@@ -209,7 +209,7 @@ def test_fuga_table_edges():
     wts = HornsrevV80()
     path = tfp + 'fuga/2MW/Z0=0.03000000Zi=00401Zeta0=0.00E+00.nc'
     site = hornsrev1.Hornsrev1Site()
-    fuga = FugaBlockage(path, site, wts)
+    fuga = FugaBlockage(site, wts, path)
 
     D = 80
     flow_map_dw = fuga([0], [0], wd=270, ws=10).flow_map(HorizontalGrid(np.arange(-200 * D, 450 * D), y=[0]))

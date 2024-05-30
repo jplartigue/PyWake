@@ -17,8 +17,8 @@ class Ott_Nielsen_2014(PropagateDownwind):
         - It has the ability to work with different types of turbines for the same project, which makes it useful for inter farm interactions.
     """
 
-    def __init__(self, LUT_path, site, windTurbines,
-                 rotorAvgModel=None, deflectionModel=None, turbulenceModel=None, remove_wriggles=False):
+    def __init__(self, site, windTurbines, LUT_path=None, rotorAvgModel=None, deflectionModel=None,
+                 turbulenceModel=None, remove_wriggles=False):
         """
         Parameters
         ----------
@@ -56,8 +56,8 @@ class Ott_Nielsen_2014_Blockage(All2AllIterative):
         - An additional blockage model is added and the All2AllIterative wind farm model is used to model blockage effects.
     """
 
-    def __init__(self, LUT_path, site, windTurbines, rotorAvgModel=None,
-                 deflectionModel=None, turbulenceModel=None, convergence_tolerance=1e-6, remove_wriggles=False):
+    def __init__(self, site, windTurbines, LUT_path=None, rotorAvgModel=None, deflectionModel=None,
+                 turbulenceModel=None, convergence_tolerance=1e-6, remove_wriggles=False):
         """
         Parameters
         ----------
@@ -92,8 +92,8 @@ def main():
         windTurbines = V80()
         x, y = site.initial_position.T
 
-        for wf_model in [Ott_Nielsen_2014(path, site, windTurbines),
-                         Ott_Nielsen_2014_Blockage(path, site, windTurbines)]:
+        for wf_model in [Ott_Nielsen_2014(site, windTurbines, path),
+                         Ott_Nielsen_2014_Blockage(site, windTurbines, path)]:
 
             # run wind farm simulation
             sim_res = wf_model(x, y)

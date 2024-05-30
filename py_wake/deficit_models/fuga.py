@@ -17,7 +17,7 @@ from xarray.core.merge import merge_attrs
 
 class FugaDeficit(WakeDeficitModel, BlockageDeficitModel, FugaUtils):
 
-    def __init__(self, LUT_path=tfp + 'fuga/2MW/Z0=0.03000000Zi=00401Zeta0=0.00E+00.nc',
+    def __init__(self, LUT_path=None,
                  smooth2zero_x=None, smooth2zero_y=None, remove_wriggles=False,
                  method='linear', rotorAvgModel=None, groundModel=None):
         """
@@ -43,6 +43,8 @@ class FugaDeficit(WakeDeficitModel, BlockageDeficitModel, FugaUtils):
             if 0, no correction is applied.
             if >0, the <smooth2zero_x> points farthest away from the centerline are linearly faded to zero
         """
+        if LUT_path is None:
+            LUT_path = tfp + 'fuga/2MW/Z0=0.03000000Zi=00401Zeta0=0.00E+00.nc'
         BlockageDeficitModel.__init__(self, upstream_only=True, rotorAvgModel=rotorAvgModel, groundModel=groundModel)
         FugaUtils.__init__(self, LUT_path, on_mismatch='input_par')
         self.smooth2zero_x = smooth2zero_x
@@ -162,9 +164,8 @@ class FugaYawDeficit(FugaDeficit):
 
 
 class Fuga(PropagateDownwind, DeprecatedModel):
-    def __init__(self, LUT_path, site, windTurbines,
-                 rotorAvgModel=None, deflectionModel=None, turbulenceModel=None,
-                 smooth2zero_x=None, smooth2zero_y=None, remove_wriggles=False):
+    def __init__(self, site, windTurbines, LUT_path=None, rotorAvgModel=None, deflectionModel=None,
+                 turbulenceModel=None, smooth2zero_x=None, smooth2zero_y=None, remove_wriggles=False):
         """
         Parameters
         ----------
@@ -194,8 +195,8 @@ class Fuga(PropagateDownwind, DeprecatedModel):
 
 
 class FugaBlockage(All2AllIterative, DeprecatedModel):
-    def __init__(self, LUT_path, site, windTurbines, rotorAvgModel=None,
-                 deflectionModel=None, turbulenceModel=None, convergence_tolerance=1e-6, remove_wriggles=False):
+    def __init__(self, site, windTurbines, LUT_path=None, rotorAvgModel=None, deflectionModel=None,
+                 turbulenceModel=None, convergence_tolerance=1e-6, remove_wriggles=False):
         """
         Parameters
         ----------
@@ -292,8 +293,8 @@ def main():
 
         path = tfp + 'fuga/2MW/Z0=0.03000000Zi=00401Zeta0=0.00E+00.nc'
 
-        for wf_model in [Fuga(path, site, windTurbines),
-                         FugaBlockage(path, site, windTurbines)]:
+        for wf_model in [Fuga(site, windTurbines, path),
+                         FugaBlockage(site, windTurbines, path)]:
             plt.figure()
             print(wf_model)
 

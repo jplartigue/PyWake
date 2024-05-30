@@ -166,8 +166,8 @@ def test_upstream_deflection():
     if plot:
         ax = plt.gca()
     for m in get_models(DeflectionModel):
-        wfm = FugaBlockage(tfp + 'fuga/2MW/Z0=0.03000000Zi=00401Zeta0=0.00E+00.nc',
-                           UniformSite(), V80(), deflectionModel=m if m is None else m())
+        wfm = FugaBlockage(UniformSite(), V80(), tfp + 'fuga/2MW/Z0=0.03000000Zi=00401Zeta0=0.00E+00.nc',
+                           deflectionModel=m if m is None else m())
 
         fm = wfm([0], [0], wd=270, ws=10, yaw=30, tilt=0).flow_map(XYGrid(x=-160, y=np.linspace(-100, 100, 501)))
         l = "None" if m is None else m.__name__

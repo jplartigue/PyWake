@@ -99,7 +99,7 @@ def test_fuga():
     xrdeficit = XRLUTDeficitModel(da, get_input=get_input, get_output=get_output)
     wfm = All2AllIterative(site, wts, wake_deficitModel=xrdeficit, blockage_deficitModel=xrdeficit)
 
-    wfm_ref = FugaBlockage(path, site, wts)
+    wfm_ref = FugaBlockage(site, wts, path)
     res, res_ref = [w(x=wt_x, y=wt_y, wd=[30], ws=[10]) for w in [wfm, wfm_ref]]
 
     if 0:
