@@ -21,10 +21,12 @@ class BastankhahGaussianDeficit(ConvectionDeficitModel):
     J. Renew. Energy. 2014;70:116-23.
     """
 
-    def __init__(self, ct2a=ct2a_madsen, k=0.0324555, ceps=.2, ctlim=0.899,
+    def __init__(self, ct2a=ct2a_madsen, k=None, ceps=.2, ctlim=0.899,
                  use_effective_ws=False, rotorAvgModel=None, groundModel=None):
         ConvectionDeficitModel.__init__(self, rotorAvgModel=rotorAvgModel, groundModel=groundModel,
                                         use_effective_ws=use_effective_ws)
+        if k is None:
+            k = 0.0324555
         self._k = k
         self._ceps = ceps
         self._ctlim = ctlim

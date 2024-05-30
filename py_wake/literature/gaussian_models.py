@@ -22,13 +22,8 @@ class Bastankhah_PorteAgel_2014(PropagateDownwind):
         - Only one parameter needed to determine the velocity distribution: the wake expansion parameter k.
     """
 
-    def __init__(self, site, windTurbines,
-                 k, ceps=.2, ct2a=ct2a_mom1d, use_effective_ws=True,
-                 rotorAvgModel=None,
-                 superpositionModel=LinearSum(),
-                 deflectionModel=None,
-                 turbulenceModel=None,
-                 groundModel=None):
+    def __init__(self, site, windTurbines, k=None, ceps=.2, ct2a=ct2a_mom1d, use_effective_ws=True, rotorAvgModel=None,
+                 superpositionModel=LinearSum(), deflectionModel=None, turbulenceModel=None, groundModel=None):
         """
         Parameters
         ----------
