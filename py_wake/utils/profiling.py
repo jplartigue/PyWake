@@ -8,6 +8,9 @@ import psutil
 import ctypes
 import linecache
 import warnings
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def timeit(func, min_time=0, min_runs=1, verbose=False, line_profile=False, profile_funcs=[]):
@@ -98,6 +101,7 @@ def compare_lineprofile(lp1, lp2, include_gt_pct=None):  # pragma: no cover
 
 
 def get_memory_usage():
+    logger.info('pywake gc_collect (get_memory_usage)')
     gc.collect()
     try:
         ctypes.CDLL('libc.so.6').malloc_trim(0)

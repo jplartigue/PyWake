@@ -11,6 +11,9 @@ from py_wake.tests import npt
 import pytest
 from py_wake.deficit_models.selfsimilarity import SelfSimilarityDeficit
 from py_wake.utils.profiling import check_memory_usage, get_memory_usage
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def test_memory_usage():
@@ -49,6 +52,7 @@ def test_memory_leak():
         memory_usage[i, 0] = get_memory_usage()
         for j in range(1, N):
             wfm(wt16_x, wt16_y, ws=10, wd=np.arange(0, 360, 30))
+            logger.info('pywake gc_collect (test_memory_leak)')
             gc.collect()
             memory_usage[i, j] = get_memory_usage()
     npt.assert_array_less(memory_usage - memory_usage[:, :1], 1)  # at most 1mb more than initial usage

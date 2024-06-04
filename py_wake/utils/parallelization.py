@@ -2,7 +2,9 @@ import multiprocessing
 import atexit
 import platform
 import gc
+import logging
 
+logger = logging.getLogger(__name__)
 pool_dict = {}
 
 
@@ -21,6 +23,7 @@ class gc_func():
 
     def __call__(self, *args, **kwargs):
         r = self.func(*args, **kwargs)
+        logger.info('pywake gc_collect (gc_func)')
         gc.collect()
         return r
 
